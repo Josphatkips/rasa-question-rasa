@@ -1,0 +1,102 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - get_started
+  - category
+  - browse_questions
+  - ask_question
+  - custom_question
+  - more_question
+  - no_more_question
+actions:
+  - action_get_categories
+  - action_browse_questions
+  - action_custom_question
+  - utter_other_question
+  - utter_choices
+  - action_submit_question
+entities:
+  - user_id
+  - category_id
+  - question_id
+
+forms:
+  question_form:
+    required_slots:
+      - question
+
+
+slots:
+  user_id:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: user_id
+  category_id:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: category_id
+  question_id:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: question_id
+  question:
+    type: text
+    mappings:
+    - type: from_text
+    conditions:
+    - active_loop: question_form
+      requested_slots: question
+  
+      
+
+responses:
+  utter_greet:
+  - text: "Hey! How are you?"
+
+  utter_cheer_up:
+  - text: "Here is something to cheer you up:"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "Did that help you?"
+
+  utter_happy:
+  - text: "Great, carry on!"
+
+  utter_goodbye:
+  - text: "Bye"
+  utter_ask_question:
+  - text: "Kindly ask the question"
+
+  utter_iamabot:
+  - text: "I am a bot, powered by Rasa."
+  utter_thanks:
+  - text: "Thanks For Using our service."
+  utter_choices:
+  - text: What can I help you with
+    buttons:
+    - title: Browse Questions
+      payload: /browse_questions
+    - title: Ask Question
+      payload: /ask_question
+  utter_other_question:
+  - text: Do you have another question?
+    buttons:
+    - title: "Yes"
+      payload: /more_question
+    - title: "No"
+      payload: /no_more_question
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

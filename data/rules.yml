@@ -1,0 +1,58 @@
+version: "3.1"
+
+rules:
+
+- rule: Say goodbye anytime the user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- rule: Say 'I am a bot' anytime the user challenges
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+
+- rule: More Question
+  steps:
+  - intent: more_question
+  - action: action_get_categories
+
+- rule: No More Question
+  steps:
+  - intent: no_more_question
+  - action: utter_thanks
+
+- rule: run Get categories on get started
+  steps:
+  - intent: get_started
+  - action: action_get_categories
+
+- rule: Browse Questions
+  steps:
+  - intent: browse_questions
+  - action: action_browse_questions
+
+- rule: Choices
+  steps:
+  - intent: category
+  - action: utter_choices
+
+- rule: Activate Question form
+  steps:
+  - intent: ask_question
+  - action: question_form
+  - active_loop: question_form
+
+- rule: Submit Question form
+  condition:
+  # Condition that form is active.
+  - active_loop: question_form
+  steps:
+  # Form is deactivated
+  - action: question_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  # The actions we want to run when the form is submitted.
+  - action: action_submit_question
+  # - action: utter_slots_values
