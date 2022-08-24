@@ -27,6 +27,19 @@ class ActionCustomQuestion(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         print("submit Form")
+        myobj = {
+            'question':tracker.get_slot('question'),
+            'category':tracker.get_slot('category_id'),
+             }
+
+        x = requests.post(url+'query', json = myobj).json()
+        if(x['response_code']==0):
+            dispatcher.utter_message(text=x['message'])
+            dispatcher.utter_message(response = "utter_other_question")
+        else:
+            dispatcher.utter_message(text=x['answer'])
+            dispatcher.utter_message(response = "utter_other_question")
+
 
         return []
 
@@ -61,7 +74,7 @@ class ActionGetActions(Action):
 
         myobj = {'category_id':tracker.get_slot('category_id') }
 
-        print("Category Id")
+        # print("Category Id")
         print(tracker.get_slot('category_id'))
 
         x = requests.post(url+'category', json = myobj).json()

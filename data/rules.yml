@@ -36,6 +36,10 @@ rules:
   steps:
   - intent: category
   - action: utter_choices
+- rule: Custom Question
+  steps:
+  - intent: custom_question
+  - action: action_custom_question
 
 - rule: Activate Question form
   steps:

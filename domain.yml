@@ -52,10 +52,10 @@ slots:
   question:
     type: text
     mappings:
-    - type: from_text
-    conditions:
-    - active_loop: question_form
-      requested_slots: question
+      - type: from_text
+        conditions:
+         - active_loop: question_form
+           requested_slot: question
   
       
 

@@ -1,9 +1,9 @@
 import requests
 
 url= "http://localhost:8000/api/"
-myobj = {'category_id':1 }
+myobj = {'question':" " }
 
-x = requests.post(url+'category', json = myobj).json()
+x = requests.post(url+'query', json = myobj).json()
 
-print(x['response_code'])
+print(x)
 # print(x['questions'])
