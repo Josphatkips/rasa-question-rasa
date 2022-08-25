@@ -15,8 +15,10 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import AllSlotsReset, FollowupAction, SlotSet
 import requests
 
-url= "http://localhost:8000/api/"
-urlimages= "http://localhost:8000/storage/images/"
+# url= "http://localhost:8000/api/"
+url= "https://rq.roycehub.com/api/"
+# urlimages= "http://localhost:8000/storage/images/"
+urlimages= "https://rq.roycehub.com/storage/images/"
 class ActionCustomQuestion(Action):
 
     def name(self) -> Text:
