@@ -101,4 +101,8 @@ nlu:
   examples: |
     - [Hello](question_id)
     - [hey](question_id)
+- intent: rating
+  examples: |
+    - [Hello](my_rating)
+    - [hey](my_rating)
  

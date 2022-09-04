@@ -22,6 +22,22 @@ urlimages= "https://rq.roycehub.com/storage/images/"
 class ActionCustomQuestion(Action):
 
     def name(self) -> Text:
+        return "action_send_rating"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        print(tracker.get_slot('my_rating'))
+        print(tracker.get_slot('my_rating'))
+        dispatcher.utter_message(response = "utter_other_question")
+
+
+        return []
+
+class ActionCustomQuestion(Action):
+
+    def name(self) -> Text:
         return "action_submit_question"
 
     def run(self, dispatcher: CollectingDispatcher,
@@ -40,7 +56,8 @@ class ActionCustomQuestion(Action):
             dispatcher.utter_message(response = "utter_other_question")
         else:
             dispatcher.utter_message(text=x['answer'])
-            dispatcher.utter_message(response = "utter_other_question")
+            # dispatcher.utter_message(response = "utter_other_question")
+            dispatcher.utter_message(response = "utter_helpful")
 
 
         return []
@@ -59,10 +76,11 @@ class ActionCustomQuestion(Action):
 
         x = requests.post(url+'question', json = myobj).json()
         dispatcher.utter_message(text=x['answer'])
-        dispatcher.utter_message(response = "utter_other_question")
+        # dispatcher.utter_message(response = "utter_other_question")
+        dispatcher.utter_message(response = "utter_helpful")
 
         # print(x['answer'])
-        print("Please do follow up")
+        # print("Please do follow up")
 
         return []
 class ActionGetActions(Action):

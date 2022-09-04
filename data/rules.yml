@@ -31,6 +31,10 @@ rules:
   steps:
   - intent: browse_questions
   - action: action_browse_questions
+- rule: ratings
+  steps:
+  - intent: rating
+  - action: action_send_rating
 
 - rule: Choices
   steps:

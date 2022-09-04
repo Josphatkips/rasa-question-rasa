@@ -15,6 +15,7 @@ intents:
   - custom_question
   - more_question
   - no_more_question
+  - rating
 actions:
   - action_get_categories
   - action_browse_questions
@@ -22,10 +23,12 @@ actions:
   - utter_other_question
   - utter_choices
   - action_submit_question
+  - action_send_rating
 entities:
   - user_id
   - category_id
   - question_id
+  - my_rating
 
 forms:
   question_form:
@@ -34,6 +37,11 @@ forms:
 
 
 slots:
+  my_rating:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: my_rating
   user_id:
     type: text
     mappings:
@@ -96,6 +104,13 @@ responses:
       payload: /more_question
     - title: "No"
       payload: /no_more_question
+  utter_helpful:
+  - text: Was the response helful
+    buttons:
+    - title: "helpful"
+      payload: '/rating{{"my_rating":"Yes"}}'
+    - title: "Not helful"
+      payload: '/rating{{"my_rating":"No"}}'
 
 session_config:
   session_expiration_time: 60
