@@ -37,6 +37,10 @@ forms:
 
 
 slots:
+  current_uuid:
+    type: text
+    mappings:
+    - type: custom
   my_rating:
     type: text
     mappings:

@@ -14,9 +14,11 @@ from rasa_sdk.executor import CollectingDispatcher
 # import  rasa.core.events.FollowupAction
 from rasa_sdk.events import AllSlotsReset, FollowupAction, SlotSet
 import requests
+import uuid
 
 # url= "http://localhost:8000/api/"
 url= "https://rq.roycehub.com/api/"
+# url= "http://localhost:8000/api/"
 # urlimages= "http://localhost:8000/storage/images/"
 urlimages= "https://rq.roycehub.com/storage/images/"
 class ActionCustomQuestion(Action):
@@ -28,12 +30,21 @@ class ActionCustomQuestion(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        print(tracker.get_slot('my_rating'))
-        print(tracker.get_slot('my_rating'))
+    
+        myobj = {
+            'rating':tracker.get_slot('my_rating'),
+            'uid':tracker.get_slot('current_uuid'),
+             }
+
+
+        x = requests.post(url+'rating', json = myobj).json()
+
         dispatcher.utter_message(response = "utter_other_question")
+        evt = SlotSet(key = "question", value = None)
+        evt2 = SlotSet(key = "my_rating", value = None)
 
 
-        return []
+        return [evt,evt2]
 
 class ActionCustomQuestion(Action):
 
@@ -45,10 +56,13 @@ class ActionCustomQuestion(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         print("submit Form")
+        print(tracker.get_slot('current_uuid'))
         myobj = {
             'question':tracker.get_slot('question'),
             'category':tracker.get_slot('category_id'),
+            'uid':tracker.get_slot('current_uuid'),
              }
+
 
         x = requests.post(url+'query', json = myobj).json()
         if(x['response_code']==0):
@@ -58,6 +72,8 @@ class ActionCustomQuestion(Action):
             dispatcher.utter_message(text=x['answer'])
             # dispatcher.utter_message(response = "utter_other_question")
             dispatcher.utter_message(response = "utter_helpful")
+
+        
 
 
         return []
@@ -72,7 +88,10 @@ class ActionCustomQuestion(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
        
-        myobj = {'question_id':tracker.get_slot('question_id') }
+        myobj = {
+            'question_id':tracker.get_slot('question_id'),
+            'uid':tracker.get_slot('current_uuid'),
+            }
 
         x = requests.post(url+'question', json = myobj).json()
         dispatcher.utter_message(text=x['answer'])
@@ -125,7 +144,7 @@ class ActionGetActions(Action):
                         ]
                     }
                 myelements.append(newobj)
-                print(xy)
+                # print(xy)
             message = {
                 "type": "template",
                 "payload": {
@@ -135,6 +154,7 @@ class ActionGetActions(Action):
                     }
             }
             dispatcher.utter_message(attachment=message)
+            
 
 
         return []
@@ -170,5 +190,11 @@ class ActionGetActions(Action):
                     {"title": "{}".format(z['name']), "payload": payload})
           
             dispatcher.utter_message(text="Choose a Category", buttons=buttons)
+        uid=uuid.uuid1()
 
-        return []
+        # print(uid.hex)
+        
+            
+        evt = SlotSet(key = "current_uuid", value = uid.hex)
+
+        return [evt]
