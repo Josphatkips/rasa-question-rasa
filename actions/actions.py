@@ -69,7 +69,10 @@ class ActionCustomQuestion(Action):
             dispatcher.utter_message(text=x['message'])
             dispatcher.utter_message(response = "utter_other_question")
         else:
-            dispatcher.utter_message(text=x['answer'])
+            dispatcher.utter_message(text=x['answer']['answer'])
+            if(x['answer']['image'] is not None):
+                print(x['answer']['image'])
+                # dispatcher.utter_message(image=urlimages+x['answer']['image'])
             # dispatcher.utter_message(response = "utter_other_question")
             dispatcher.utter_message(response = "utter_helpful")
 
@@ -94,7 +97,10 @@ class ActionCustomQuestion(Action):
             }
 
         x = requests.post(url+'question', json = myobj).json()
-        dispatcher.utter_message(text=x['answer'])
+        if(x['answer']['image'] is not None):
+            # print(x['answer']['image'])
+            dispatcher.utter_message(image=urlimages+x['answer']['image'])
+        dispatcher.utter_message(text=x['answer']['answer'])
         # dispatcher.utter_message(response = "utter_other_question")
         dispatcher.utter_message(response = "utter_helpful")
 
@@ -133,7 +139,7 @@ class ActionGetActions(Action):
                 newobj={
                         "title": xy['question'],
                         "subtitle": xy['question'],
-                        "image_url": urlimages+xy['image'],
+                        # "image_url": urlimages+xy['image'],
                         "buttons": [ 
                             {
                             "title": "Get Answer",
