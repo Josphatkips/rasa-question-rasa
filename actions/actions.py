@@ -71,8 +71,9 @@ class ActionCustomQuestion(Action):
         else:
             dispatcher.utter_message(text=x['answer']['answer'])
             if(x['answer']['image'] is not None):
-                print(x['answer']['image'])
+                # print(x['answer']['image'])
                 # dispatcher.utter_message(image=urlimages+x['answer']['image'])
+                dispatcher.utter_message(image=urlimages+x['answer']['image'])
             # dispatcher.utter_message(response = "utter_other_question")
             dispatcher.utter_message(response = "utter_helpful")
 
