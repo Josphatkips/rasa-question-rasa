@@ -3,7 +3,7 @@ services:
   rasa:
     image: rasa/rasa:3.2.1-full
     ports:
-      - 80:5005
+      - 81:5005
     volumes:
       - ./:/app
     command:
